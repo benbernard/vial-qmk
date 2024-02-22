@@ -24,3 +24,5 @@ Enter the bootloader in 3 ways:
 
 * **Physical reset button**: Briefly press the button on the back of the PCB
 * **Keycode in layout**: Press the key mapped to `QK_BOOT` if it is available
+
+To enter the bootloader after flashing, hold the upper left key (esc) and the upper right key at the same time.
