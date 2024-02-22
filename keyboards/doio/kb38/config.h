@@ -14,6 +14,8 @@
 #define ENABLE_RGB_MATRIX_CYCLE_ALL
 #define ENABLE_RGB_MATRIX_RAINBOW_MOVING_CHEVRON
 
+
+
 /*
  * Feature disable options
  *  These options are also useful to firmware size reduction.
