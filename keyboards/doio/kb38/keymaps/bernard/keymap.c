@@ -31,6 +31,7 @@ enum custom_keys {
     RGB_M_BR, // RGB_MATRIX_BREATHING
     RGB_M_CA, // RGB_MATRIX_CYCLE_ALL
     RGB_M_MSP, // RGB_MATRIX_MULTISPLASH
+    RGB_M_PFL, // RGB_MATRIX_PIXEL_FLOW
 };
 
 // Macros
@@ -72,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [L_RGB] = LAYOUT(
         _______,              TO(BASE),              _______,   _______,  _______,    _______,   _______,   _______,
         _______,   _______,   _______,   _______,    _______,   _______,  _______,
-        RGB_D_RAIN,RGB_M_CA,  _______,   _______,    _______,   _______,  _______,    RGB_TOG,              _______,
+        RGB_D_RAIN,RGB_M_PFL, _______,   _______,    _______,   _______,  _______,    RGB_TOG,              _______,
         RGB_M_MSP, RGB_M_GUD, RGB_M_GLR, _______,   _______,  _______,
         RGB_M_P,   RGB_M_B,   RGB_M_RB,  _______,               _______,                        _______,
         _______,              _______,               _______,   _______,  _______
@@ -130,6 +131,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         break;
     case RGB_M_MSP:
         rgb_matrix_mode(RGB_MATRIX_MULTISPLASH);
+        break;
+    case RGB_M_PFL:
+        rgb_matrix_mode(RGB_MATRIX_PIXEL_FLOW);
         break;
   }
   return true;
