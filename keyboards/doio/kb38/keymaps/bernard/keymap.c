@@ -17,13 +17,25 @@
 #include QMK_KEYBOARD_H
 
 enum layers {
-    _QWERTY,
-    _LAYERTWO
+    BASE,
+    TWO,
+    L_RGB
+};
+
+enum custom_keys {
+    RGB_M_RB = SAFE_RANGE, // RGB_MATRIX_RAINBOW_MOVING_CHEVRON
+    RGB_D_RAIN,  // RGB_MATRIX_DIGITAL_RAIN
+    RGB_M_AM, // RGB_MATRIX_ALPHAS_MODS
+    RGB_M_GUD, // RGB_MATRIX_GRADIENT_UP_DOWN
+    RGB_M_GLR, // RGB_MATRIX_GRADIENT_LEFT_RIGHT
+    RGB_M_BR, // RGB_MATRIX_BREATHING
+    RGB_M_CA, // RGB_MATRIX_CYCLE_ALL
+    RGB_M_MSP, // RGB_MATRIX_MULTISPLASH
 };
 
 // Macros
 #define MC_AMZN LSFT(LCTL(LGUI(KC_A)))
-#define MC_MBK LSFT(LCTL(LGUI(KC_M)))
+#define MC_MTG  LSFT(LCTL(LGUI(KC_M)))
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* ┌───┐   ┌───────┐┌───┬───┬───┐┌───┬───┬───┐
@@ -41,22 +53,39 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * │   0   │DEL│ T ││LFT│DWN│RHT││           │
      * └───────┴───┴───┘└───┴───┴───┘└───────────┘
      */
-    [_QWERTY] = LAYOUT(
-        MO(1),            TO(1),               RGB_RMOD, RGB_TOG, RGB_MOD,    KC_F1,   KC_F2,   QK_BOOT,
+    [BASE] = LAYOUT(
+        MO(1),            TO(TWO),             RGB_RMOD, RGB_TOG, RGB_MOD,    KC_F1,   KC_F2,   QK_BOOT,
         KC_NUM,  KC_PSLS, KC_PAST, KC_PMNS,    KC_PAUS,  KC_SCRL, KC_PSCR,
-        KC_P7,   KC_P8,   KC_P9,   KC_PPLS,    KC_INS,   KC_HOME, KC_PGUP,    KC_MPLY,          KC_END,
+        KC_P7,   KC_P8,   KC_P9,   KC_PPLS,    KC_INS,   MC_MTG,  KC_PGUP,    KC_MPLY,          KC_END,
         KC_P4,   KC_P5,   KC_P6,               KC_END,   KC_DEL,  KC_PGDN,
         KC_P1,   KC_P2,   KC_P3,   KC_PENT,              KC_UP,                        KC_B,
         KC_P0,            KC_PDOT,             KC_LEFT,  KC_DOWN, MC_AMZN
     ),
-    [_LAYERTWO] = LAYOUT(
-        _______,          TO(0),               RGB_SPD,  RGB_TOG, RGB_SPI,    KC_A,    QK_RBT,  QK_BOOT,
-        KC_NUM,  KC_PSLS, KC_PAST, KC_PMNS,    KC_PAUS,  KC_SCRL, KC_PSCR,
-        KC_P7,   KC_P8,   KC_P9,   KC_PPLS,    KC_INS,   KC_HOME, KC_PGUP,    KC_HOME,          KC_END,
-        KC_P4,   KC_P5,   KC_P6,               KC_END,   KC_DEL,  KC_PGDN,
-        KC_P1,   KC_P2,   KC_P3,   KC_PENT,              KC_UP,                        KC_B,
-        KC_P0,            KC_PDOT,             KC_LEFT,  KC_DOWN, KC_RGHT
+    [TWO] = LAYOUT(
+        MO(2)  ,              TO(L_RGB),             BL_TOGG,   _______,  _______,    KC_A,     QK_RBT ,   _______,
+        _______,   _______,   _______,   _______,    _______,   _______,  _______,
+        _______,   _______,   _______,   _______,    _______,   _______,  _______,    _______,             _______,
+        _______,   _______,   _______,               _______,   _______,  _______,
+        _______,   _______,   _______,   _______,               _______,                        _______,
+        _______,              _______,               _______,   _______,  _______
+    ),
+    [L_RGB] = LAYOUT(
+        _______,              TO(BASE),              _______,   _______,  _______,    _______,   _______,   _______,
+        _______,   _______,   _______,   _______,    _______,   _______,  _______,
+        RGB_D_RAIN,RGB_M_CA,  _______,   _______,    _______,   _______,  _______,    RGB_TOG,              _______,
+        RGB_M_MSP, RGB_M_GUD, RGB_M_GLR, _______,   _______,  _______,
+        RGB_M_P,   RGB_M_B,   RGB_M_RB,  _______,               _______,                        _______,
+        _______,              _______,               _______,   _______,  _______
     )
+    // Transparent Layer:
+    /* [_LAYER] = LAYOUT( */
+    /*     _______,              _______,               _______,   _______,  _______,    _______,   _______,   _______, */
+    /*     _______,   _______,   _______,   _______,    _______,   _______,  _______, */
+    /*     _______,   _______,   _______,   _______,    _______,   _______,  _______,    _______,              _______, */
+    /*     _______,   _______,   _______,               _______,   _______,  _______, */
+    /*     _______,   _______,   _______,   _______,               _______,                        _______, */
+    /*     _______,              _______,               _______,   _______,  _______ */
+    /* ) */
 };
 
 // Encoder Order:
@@ -66,10 +95,46 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [0] = {  ENCODER_CCW_CW(KC_F1,   KC_F2),  ENCODER_CCW_CW(KC_MPRV, KC_MNXT),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
-    [1] = {  ENCODER_CCW_CW(KC_F1,   KC_F2),  ENCODER_CCW_CW(KC_MPRV, KC_MNXT),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
+    [BASE]  = {  ENCODER_CCW_CW(KC_F1  ,   KC_F2  ),  ENCODER_CCW_CW(KC_MPRV, KC_MNXT),  ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
+    [TWO]   = {  ENCODER_CCW_CW(_______,   _______),  ENCODER_CCW_CW(_______, _______),  ENCODER_CCW_CW(_______, _______)},
+    [L_RGB] = {  ENCODER_CCW_CW(RGB_SAD,   RGB_SAI),  ENCODER_CCW_CW(RGB_HUD, RGB_HUI),  ENCODER_CCW_CW(RGB_SPD, RGB_SPI)}
+
+    // Transparent Example
+    // [_LAYER] = {  ENCODER_CCW_CW(_______,   _______),  ENCODER_CCW_CW(_______, _______),  ENCODER_CCW_CW(_______, _______)},
 };
 #endif
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case RGB_M_RB:
+        rgb_matrix_mode(RGB_MATRIX_RAINBOW_MOVING_CHEVRON);
+        break;
+    case RGB_D_RAIN:
+        rgb_matrix_mode(RGB_MATRIX_DIGITAL_RAIN);
+        break;
+    // Handling new RGB modes
+    case RGB_M_AM:
+        rgb_matrix_mode(RGB_MATRIX_ALPHAS_MODS);
+        break;
+    case RGB_M_GUD:
+        rgb_matrix_mode(RGB_MATRIX_GRADIENT_UP_DOWN);
+        break;
+    case RGB_M_GLR:
+        rgb_matrix_mode(RGB_MATRIX_GRADIENT_LEFT_RIGHT);
+        break;
+    case RGB_M_BR:
+        rgb_matrix_mode(RGB_MATRIX_BREATHING);
+        break;
+    case RGB_M_CA:
+        rgb_matrix_mode(RGB_MATRIX_CYCLE_ALL);
+        break;
+    case RGB_M_MSP:
+        rgb_matrix_mode(RGB_MATRIX_MULTISPLASH);
+        break;
+  }
+  return true;
+}
+
 
 /*NOTE FOR PERSON MODIFYING KEYMAP
 The large knob press is mapped as KC_B, despite it not having one.

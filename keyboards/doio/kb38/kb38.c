@@ -24,10 +24,40 @@ bool oled_task_kb(void) {
     oled_write_ln_P(PSTR(""), false);
     oled_write_P(PSTR("  Layer: "), false);
 
+    switch (get_highest_layer(layer_state|default_layer_state)) {
+        case 0:
+            oled_write_P(PSTR("Base"), false);
+            break;
+        case 1:
+            oled_write_P(PSTR("Temp"), false);
+            break;
+        case 2:
+            oled_write_P(PSTR("RGB "), false);
+            break;
+    }
+
     // write layer state, converting int to string
-    char layer_str[4]; // Assuming a maximum of 3 digits for layer number + null terminator
-    snprintf(layer_str, sizeof(layer_str), "%u", get_highest_layer(layer_state));
-    oled_write_ln(layer_str, false);
+    /* char layer_str[4]; // Assuming a maximum of 3 digits for layer number + null terminator */
+    /* snprintf(layer_str, sizeof(layer_str), "%u", get_highest_layer(layer_state)); */
+    /* oled_write_ln(layer_str, false); */
     return true;
+}
+#endif
+
+#ifdef RGB_MATRIX_CUSTOM_KB
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+    for (uint8_t i = led_min; i < led_max; i++) {
+        switch(get_highest_layer(layer_state|default_layer_state)) {
+            /* case 2: */
+            /*     #<{(| rgb_matrix_set_color(i, RGB_BLUE); |)}># */
+            /*     break; */
+            case 1:
+                rgb_matrix_set_color(i, RGB_YELLOW);
+                break;
+            default:
+                break;
+        }
+    }
+    return false;
 }
 #endif
