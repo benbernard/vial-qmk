@@ -38,6 +38,11 @@ enum custom_keys {
 #define MC_AMZN LSFT(LCTL(LGUI(KC_A)))
 #define MC_MTG  LSFT(LCTL(LGUI(KC_M)))
 
+// Linear Copy Combos (Copy Id, Copy Url, Copy Branch Name)
+#define LCP_ID LGUI(KC_DOT)
+#define LCP_URL LGUI(LSFT(KC_COMMA))
+#define LCP_BR LGUI(LSFT(KC_DOT))
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* ┌───┐   ┌───────┐┌───┬───┬───┐┌───┬───┬───┐
      * │ESC│   │KC_BSPC││F1 │F2 │F3 ││F4 │F5 │F6 │
@@ -55,12 +60,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───────┴───┴───┘└───┴───┴───┘└───────────┘
      */
     [BASE] = LAYOUT(
-        MO(1),            TO(TWO),             RGB_RMOD, RGB_TOG, RGB_MOD,    KC_F1,   KC_F2,   QK_BOOT,
-        KC_NUM,  KC_PSLS, KC_PAST, KC_PMNS,    KC_PAUS,  KC_SCRL, KC_PSCR,
-        KC_P7,   KC_P8,   KC_P9,   KC_PPLS,    KC_INS,   MC_MTG,  KC_PGUP,    KC_MPLY,          KC_END,
-        KC_P4,   KC_P5,   KC_P6,               KC_END,   KC_DEL,  KC_PGDN,
-        KC_P1,   KC_P2,   KC_P3,   KC_PENT,              KC_UP,                        KC_B,
-        KC_P0,            KC_PDOT,             KC_LEFT,  KC_DOWN, MC_AMZN
+        MO(1),                TO(TWO),               RGB_RMOD,  RGB_TOG,  RGB_MOD,    KC_F1,    KC_F2,     QK_BOOT,
+        KC_NUM,    KC_PSLS,   KC_PAST,   KC_PMNS,    KC_PAUS,   KC_SCRL,  KC_PSCR,
+        KC_P7,     KC_P8,     KC_P9,     KC_PPLS,    KC_INS,    MC_MTG,   KC_PGUP,    KC_MPLY,             KC_END,
+        KC_P4,     KC_P5,     KC_P6,                 LCP_ID,    LCP_URL,  LCP_BR,
+        KC_P1,     KC_P2,     KC_P3,     KC_PENT,               KC_UP,                          KC_B,
+        KC_P0,                KC_PDOT,               KC_LEFT,   KC_DOWN,  MC_AMZN
     ),
     [TWO] = LAYOUT(
         MO(2)  ,              TO(L_RGB),             BL_TOGG,   _______,  _______,    KC_A,     QK_RBT ,   _______,
